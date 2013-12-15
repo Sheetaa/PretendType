@@ -1,0 +1,102 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Clock</title>
+        <style type="text/css">
+            .clock {
+                margin: auto;
+                position: absolute;
+                top: 0; left: 0; bottom: 0; right: 0;
+                width: 500px;
+                height: 500px;
+                border-radius: 50%;
+                border: 10px solid rgb(204, 204, 204);
+            }
+            .axis {
+                margin: auto;
+                position: absolute;
+                top: 0; left: 0; bottom: 0; right: 0;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                background-color: rgb(204, 204, 204);
+            }
+            .mark {
+                position: absolute;
+                width: 10px;
+                height: 30px;
+                top: 0px;
+                left: 245px;
+                background-color: rgb(204, 204, 204);
+            }
+            .pointer {
+                position: absolute;
+                background-color: rgb(204, 204, 204);
+
+                -webkit-transform-origin: 50% 75%;
+
+                /*-webkit-transition: -webkit-transform 1s;*/
+            }
+            .hour {
+                width: 20px;
+                height: 150px;
+                top: 137.5px;
+                left: 240px;
+            }
+            .min {
+                width: 10px;
+                height: 210px;
+                top: 92.5px;
+                left: 245px;
+            }
+            .sec {
+                width: 5px;
+                height: 270px;
+                top: 47.5px;
+                left: 247.5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class='clock'>
+            <div class='axis'></div>
+            <div class='mark'></div>
+            <div class='pointer hour'></div>
+            <div class='pointer min'></div>
+            <div class='pointer sec'></div>
+        </div>
+    </body>
+    <script type='text/javascript'>
+        var clock = document.querySelector(".clock");
+        var pointer = document.querySelector(".pointer");
+        for(var i = 1; i < 12; i++){
+            var mark = document.createElement("div");
+            mark.className = "mark";
+            mark.style["-webkit-transform-origin"] = "50% 250px";
+            mark.style["-webkit-transform"] = "rotate(" + i*30 + "deg)";
+            clock.insertBefore(mark, pointer);
+        }
+
+        setInterval(drawClock, 1000);
+        function drawClock(){
+            var cur = new Date();
+            var hour = cur.getHours();
+            var min = cur.getMinutes();
+            var sec = cur.getSeconds();
+            var hdeg = ((hour>12?(hour-12):hour)*1.0 + min*1.0/60 + sec*1.0/3600)*30;
+            var mdeg = (min + sec*1.0/60)*6;
+            var sdeg = sec*6;
+            document.querySelector(".hour").style['-webkit-transform'] = "rotate("+hdeg+"deg)";
+            document.querySelector(".min").style['-webkit-transform'] = "rotate("+mdeg+"deg)";
+            document.querySelector(".sec").style['-webkit-transform'] = "rotate("+sdeg+"deg)";
+        }
+
+        clock.addEventListener("click", function(event){
+            if (document.webkitIsFullScreen) {
+                document.webkitCancelFullScreen();
+            } else {
+                document.documentElement.webkitRequestFullScreen();
+            }
+        }, false);
+    </script>
+</html>
