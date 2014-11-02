@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tabs Demo</title>
+    <style>
+        ul {
+            padding: 0;
+            /*display: inline-block;*/
+            list-style: none;
+            font-size: 0; /* 设置 font-size 为0目的在于去掉 inline-block 元素之间的缝隙 */
+            border-bottom: 1px solid #d9d9d9;
+        }
+        li {
+            display: inline-block;
+            width: 100px;
+            height: 29px;
+            line-height: 29px;
+            text-align: center;
+            font-size: 12px;
+            padding: 0 15px;
+            border-top: 1px solid #d9d9d9;
+            border-left: 1px solid #d9d9d9;
+            border-right: 1px solid #d9d9d9;
+            margin-right: -1px;
+            background-color: #fafafa;
+            cursor: pointer;
+        }
+        li:hover {
+            background-color: #fff;
+            margin-bottom: -1px;
+            height: 30px; /* 选中的选项卡高度要比其它的高度多1px */
+        }
+        .tabs-content {
+            height: 200px;
+            background-color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div id="tabs">
+        <ul class="tabs-label">
+            <li class="tabs-selected">CSS 控件</li>
+            <li>UI 控件拆分</li>
+            <li>UI 栅格化设计</li>
+            <li>新 UI 设计规范</li>
+            <li>不能再点了</li>
+        </ul>
+    </div>
+    <div class="tabs-content"></div>
+</body>
+</html>
