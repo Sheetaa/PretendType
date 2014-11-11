@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Slider Demo</title>
+    <style>
+        .slider {
+            position: absolute;
+            text-align: center;
+        }
+        .item {
+            width: 300px;
+            height: 450px;
+            overflow: hidden;
+        }
+        .hide {
+            display: none;
+        }
+        img {
+            width: 300px;
+            height: 450px;
+        }
+        .pager {
+            
+        }
+        .pager a.pager-current {
+            background: #333;
+            /*width: 16px;*/
+        }
+        .pager a {
+            background: #ccc;
+            display: inline-block;
+            cursor: pointer;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slider">
+        <div class="item">
+            <img src="http://pic.hefei.cc/newcms/2012/03/14/13316929284f6005808aa20.jpg">
+        </div>
+        <div class="item hide">
+            <img src="http://pic.hefei.cc/newcms/2012/03/14/13316929274f60057f72733.jpg">
+        </div>
+        <div class="item hide">
+            <img src="http://pic.hefei.cc/newcms/2012/03/14/13316929284f60058013da9.jpg">
+        </div>
+        <div class="item hide">
+            <img src="http://pic.hefei.cc/newcms/2012/03/14/13316929294f600581a07e5.jpg">
+        </div>
+        <div class="pager">
+            <a href="#" data-page="0" class="pager-current"></a>
+            <a href="#" data-page="1"></a>
+            <a href="#" data-page="2"></a>
+            <a href="#" data-page="3"></a>
+        </div>
+    </div>
+    <script>
+        var slice = Array.prototype.slice;
+        var sliderItems = slice.call(document.getElementsByClassName('item'), 0);
+        var as = slice.call(document.getElementsByTagName('a'), 0);
+        console.log(sliderItems);
+        var tag = -1;
+        setInterval(function(){
+            tag = -1;
+            for(var i = 0, len = sliderItems.length; i < len; i++){
+                if(/hide/.test(sliderItems[i].className) == false){
+                    tag = i;
+                    break;
+                }
+            }
+
+            change(tag, (tag + 1)%len);
+
+        }, 3000);
+
+        var pager = document.getElementsByClassName('pager')[0];
+        pager.addEventListener('click', function(e){
+            e.preventDefault();
+            var target = e.target;
+            var current = document.getElementsByClassName('pager-current')[0];
+            if(target.tagName == 'A' && target.className !== 'pager-current'){
+                change(current.dataset.page, target.dataset.page);
+            }
+        }, false);
+
+        // 切换函数
+        function change(current, target){
+            sliderItems[current].className += ' hide';
+            sliderItems[target].className = sliderItems[target].className.replace(/ hide/, '');
+            as[current].className = as[current].className.replace(/pager-current/, '');
+            as[target].className += 'pager-current';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Slider Demo</title>
+    <style>
+        .slider {
+            position: absolute;
+            width: 300px;
+            height: 500px;
+            margin: auto;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            text-align: center;
+        }
+        b {
+            position: absolute;
+            top: 200px;
+            display: block;
+            width: 30px;
+            height: 50px;
+            line-height: 50px;
+            font-size: 40px;
+            font-weight: bold;
+            background-color: rgba(0, 0, 0, 0.15);
+            color: #000;
+            cursor: pointer;
+            text-align: center;
+        }
+        b:hover {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        #left {
+
+        }
+        #right {
+            right: 0;
+        }
+        .slider-stage {
+            width: 300px;
+            height: 450px;
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 0 auto;
+        }
+        .slider-item {
+            width: 300px;
+            height: 450px;
+        }
+        .slider-pager a.slider-pager-current {
+            background: #333;
+            /*width: 16px;*/
+        }
+        .slider-pager a {
+            background: #ccc;
+            display: inline-block;
+            cursor: pointer;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slider">
+        <b id="left">&lt;</b><b id="right">&gt;</b>
+        <div class="slider-stage">
+            <img src="http://pic.hefei.cc/newcms/2012/03/14/13316929284f6005808aa20.jpg" class="slider-item"><img src="http://pic.hefei.cc/newcms/2012/03/14/13316929274f60057f72733.jpg" class="slider-item"><img src="http://pic.hefei.cc/newcms/2012/03/14/13316929284f60058013da9.jpg" class="slider-item"><img src="http://pic.hefei.cc/newcms/2012/03/14/13316929294f600581a07e5.jpg" class="slider-item">
+        </div>
+        <div class="slider-pager">
+            <a href="#" data-page="0" class="slider-pager-current"></a>
+            <a href="#" data-page="1"></a>
+            <a href="#" data-page="2"></a>
+            <a href="#" data-page="3"></a>
+        </div>
+    </div>
+    <script>
+        var DURATION = 200;
+        var DISTANCE = 300;
+        var COUNT = 4;
+
+        var requestAnimationFrame = (function(){
+            return window.requestAnimationFrame
+                || window.webkitRequestAnimationFrame
+                || window.mozRequestAnimationFrame
+                || window.oRequestAnimationFrame
+                || function(callback){
+                    return setTimeout(callback, 1000 / 60);
+                };
+        })();
+
+        var startTime;
+        var index, tarIndex, curPos, tarPos;
+
+        var slice = Array.prototype.slice;
+        var stage = document.getElementsByClassName('slider-stage')[0];
+        var sliderItems = slice.call(document.getElementsByClassName('slider-item'), 0);
+        var pager = document.getElementsByClassName('slider-pager')[0];
+        var as = slice.call(document.getElementsByTagName('a'), 0);
+        var left = document.getElementById('left');
+        var right = document.getElementById('right');
+
+        var timer = setInterval(unit, 3000);
+
+        pager.addEventListener('click', function(e){
+            clearInterval(timer);
+            e.preventDefault();
+            var target = e.target;
+            var current = document.getElementsByClassName('slider-pager-current')[0];
+            if(target.tagName == 'A' && target.className !== 'slider-pager-current'){
+                animation(current.dataset.page, target.dataset.page);
+            }
+            timer = setInterval(unit, 3000);
+        }, false);
+        left.addEventListener('click', function(e){
+            clearInterval(timer);
+            index = getCurIndex();
+            tarIndex = (index + COUNT - 1) % COUNT;
+            animation(index, tarIndex);
+            timer = setInterval(unit, 3000);
+        }, false);
+        right.addEventListener('click', function(e){
+            clearInterval(timer);
+            index = getCurIndex();
+            tarIndex = (index + 1) % COUNT;
+            animation(index, tarIndex);
+            timer = setInterval(unit, 3000);
+        }, false);
+
+        function unit(){
+            index = getCurIndex();
+            tarIndex = (index + 1) % COUNT;
+            animation(index, tarIndex);
+        }
+
+        // 动画切换函数
+        function animation(index, tarIndex){
+            beforeSwitch(index, tarIndex);
+            startTime = new Date();
+            requestAnimationFrame(timeHandler);
+
+            switchPager(index, tarIndex);
+        }
+
+        // 切换分页函数
+        function switchPager(index, tarIndex){
+            as[index].className = as[index].className.replace(/slider-pager-current/, '');
+            as[tarIndex].className += 'slider-pager-current';
+        }
+
+        // 计时器函数
+        function timeHandler(){
+            var timePast = new Date() - startTime;
+            if(timePast >= DURATION){
+                tick(1);
+            } else {
+                tick(timePast / DURATION);
+                requestAnimationFrame(timeHandler);
+            }
+        }
+
+        // 每一帧的移动
+        function tick(percent){
+            var move = (tarPos - curPos) * percent;
+            stage.scrollLeft = curPos + move;
+        }
+
+        // 得到当前图片的索引
+        function getCurIndex(){
+            return parseInt(document.getElementsByClassName('slider-pager-current')[0].dataset.page, 10);
+        }
+
+        // 在切换图片之前的动作，计算动画的开始位置和目标位置
+        function beforeSwitch(index, tarIndex){
+            curPos = DISTANCE * index;
+            tarPos = DISTANCE * tarIndex;
+        }
+    </script>
+</body>
+</html>
