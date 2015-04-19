@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>URL Animation Test</title>
+</head>
+<body>
+    <button type="button" id="shark">Shark</button>
+    <script>
+        var url = location.href.substring(0, location.href.indexOf('#'));
+        var i = 0, word = ['A', 'LINK', 'CLICK'];
+        var anim1 = setInterval(function () {
+            location.href = url + '#' + word[i++];
+            if (i > 2) i%=3;
+        }, 1000);
+
+        var style = {
+            shark: '|\\__________________'
+        };
+
+        var bshark = document.getElementById('shark');
+        var flag = 1;
+        var dir = true;
+        bshark.addEventListener('click', function () {
+            clearInterval(anim1);
+            location.href = url + '#' + style.shark;
+            var animShark = setInterval(function () {
+                if (dir) {
+                    location.href = url + '#'
+                                + new Array(flag + 1).join('_')
+                                + '|\\'
+                                + new Array(19 - flag).join('_');
+                    flag++;
+                } else {
+                    location.href = url + '#'
+                                + new Array(flag + 1).join('_')
+                                + '/|'
+                                + new Array(19 - flag).join('_');
+                    flag--;
+                }
+                if (flag === 18) {
+                    dir = false;
+                } else if (flag === 0) {
+                    dir = true;
+                }
+            }, 200);
+        }, false);
+    </script>
+</body>
+</html>

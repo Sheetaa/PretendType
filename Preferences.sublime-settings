@@ -1,0 +1,26 @@
+{
+	"caret_style": "phase",
+	"draw_minimap_border": true,
+	"ensure_newline_at_eof_on_save": true,
+	"font_size": 15.0,
+	"highlight_line": true,
+	"highlight_modified_tabs": true,
+	"ignored_packages":
+	[
+		"Vintage",
+		"DocBlockr",
+		"Emmet",
+		"HTML-CSS-JS Prettify",
+		"Markdown Preview"
+	],
+	"indent_guide_options":
+	[
+		"draw_normal",
+		"draw_active"
+	],
+	"match_selection": true,
+	"translate_tabs_to_spaces": true,
+	"trim_trailing_white_space_on_save": true,
+	"word_wrap": true,
+	"wrap_width": 100
+}
