@@ -1,0 +1,20 @@
+<div class="v-center-predict">
+    <h3>猜你喜欢<a href="#"><i></i>换一组</a></h3>
+    <div class="section">
+        <ul class="clearfix">
+        <&foreach from=$bsList item=item name=list&>
+            <li class="<&if $smarty.foreach.list.index == 0&>cur-page<&else&>shift<&/if&>" data-page="<&$smarty.foreach.list.index|escape:html&>">
+                <a class="img-link" href="<&$item.url|escape:html&>"><img src="<&$item.imgSrc|escape:html&>" alt="<&$item.name|escape:html&>"></a>
+                <h4><a class="name" href="<&$item.url|escape:html&>" title="<&$item.name|escape:html&>"><&$item.name|truncate:30:"..."|escape:html&></a></h4>
+                <span><&$item.mallName|escape:html&></span>
+                <p>
+                    <span>￥<strong><&$item.price|escape:html&></strong></span>
+                    <del>￥<&$item.originPrice|escape:html&></del>
+                </p>
+                <a class="buy-link" href="<&$item.buyUrl|escape:html&>">立即抢购</a>
+            </li>
+        <&/foreach&>
+    </ul>
+    </div>
+
+</div>
