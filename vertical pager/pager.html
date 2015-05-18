@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+      content="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+    <title>pager</title>
+    <style type="text/css">
+        html {
+            height: 100%;
+        }
+        body {
+            height: 100%;
+            margin: 0;
+        }
+        .wrapper {
+            /*height: 100%;*/
+            overflow: hidden;
+        }
+        .arrow-up {
+            content: '';
+            position: absolute;
+            top: 0;
+            display: block;
+            width: 100%;
+            height: 50px;
+            background: url(arrow-up.png);
+            background-size: 50px 50px;
+            background-position: 50%;
+            background-repeat: no-repeat;
+        }
+        .arrow-down {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            display: block;
+            width: 100%;
+            height: 50px;
+            background: url(arrow-down.png);
+            background-size: 50px 50px;
+            background-position: 50%;
+            background-repeat: no-repeat;
+        }
+        .item {
+            height: 400px;
+        }
+        .red {
+            background-color: #ff0000;
+        }
+        .orange {
+            background-color: #ff6600;
+        }
+        .yellow {
+            background-color: #ffff00;
+        }
+        .green {
+            background-color: #00cc33;
+        }
+        .light {
+            background-color: #99ffcc;
+        }
+        .blue {
+            background-color: #3333ff;
+        }
+        .purple {
+            background-color: #9900cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="item red cur-item" data-index='0'></div>
+        <div class="item orange" data-index='1'></div>
+        <div class="item yellow" data-index='2'></div>
+        <div class="item green" data-index='3'></div>
+        <div class="item light" data-index='4'></div>
+        <div class="item blue" data-index='5'></div>
+        <div class="item purple" data-index='6'></div>
+    </div>
+    <div class="arrow-up"></div>
+    <div class="arrow-down"></div>
+    <script type="text/javascript">
+        var up = document.getElementsByClassName('arrow-up')[0];
+        var down = document.getElementsByClassName('arrow-down')[0];
+        var wrapper = document.getElementsByClassName('wrapper')[0];
+        var items = wrapper.getElementsByClassName('item');
+        var length = items.length;
+        var index, pre, next;
+
+        up.addEventListener('click', function () {
+            getCurIndex();
+            if (index > 0) {
+                var curItem = items[index];
+                var style = wrapper.style;
+                var pos = curItem.offsetHeight * (index - 1);
+
+                style.webkitTransitionDuration =
+                    style.MozTransitionDuration =
+                        style.msTransitionDuration =
+                            style.OTransitionDuration =
+                                style.transitionDuration = 500 + 'ms';
+
+                style.webkitTransform = 'translate3d(0, -' + pos + 'px, 0)';
+                style.msTransform =
+                    style.MozTransform =
+                        style.OTransform = 'translateX(-' + pos + 'px)';
+
+                curItem.classList.remove('cur-item');
+                items[pre].classList.add('cur-item');
+            }
+
+        }, false);
+        down.addEventListener('click', function () {
+            getCurIndex();
+            if (index < length - 1) {
+                var curItem = items[index];
+                var style = wrapper.style;
+                var pos = curItem.offsetHeight * (index + 1);
+
+                style.webkitTransitionDuration =
+                    style.MozTransitionDuration =
+                        style.msTransitionDuration =
+                            style.OTransitionDuration =
+                                style.transitionDuration = 500 + 'ms';
+
+                style.webkitTransform = 'translate3d(0, -' + pos + 'px, 0)';
+                style.msTransform =
+                    style.MozTransform =
+                        style.OTransform = 'translateX(-' + pos + 'px)';
+
+                curItem.classList.remove('cur-item');
+                items[next].classList.add('cur-item');
+            }
+        }, false);
+
+        function getCurIndex() {
+            index = parseInt(wrapper.getElementsByClassName('cur-item')[0].getAttribute('data-index'), 10);
+            pre = index - 1;
+            next = index + 1;
+        }
+    </script>
+</body>
+</html>
