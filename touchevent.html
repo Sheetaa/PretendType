@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+      content="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+    <title>touchevent</title>
+    <style type="text/css">
+        .one {
+            width: 200px;
+            height: 50px;
+            background-color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="one"></div>
+    <script type="text/javascript">
+        var one = document.getElementsByClassName('one')[0];
+        var x;
+        var y;
+        var curX;
+        var curY;
+        var top;
+        var left;
+        var rect;
+        one.addEventListener('touchstart', function (e) {
+            // e.preventDefault();
+            rect = one.getBoundingClientRect();
+            x = e.touches[0].pageX;
+            y = e.touches[0].pageY;
+        }, false);
+        one.addEventListener('touchmove', function (e) {
+            curX = e.touches[0].pageX;
+            curY = e.touches[0].pageY;
+            e.preventDefault();
+            touchAnimate();
+        }, false);
+        one.addEventListener('touchend', function (e) {
+            console.log(e);
+        }, false);
+
+        function touchAnimate () {
+            var style = one.style;
+            var moveX = curX - x + rect.left;
+            var moveY = curY - y + rect.top;
+            style.webkitTransform = 'translate3d(' + moveX + 'px, ' + moveY + 'px, 0)';
+        }
+    </script>
+    <script src="http://static1.searchbox.baidu.com/static/searchbox/openjs/aio.js"></script>
+    <a href="taobao://m.taobao.com">淘宝</a>
+    <a href="zhihu://questions">知乎</a>
+    <a href="tmall://tmallclient/?{'action':'item:id=36615660686'}">天猫</a>
+    <script type="text/javascript">
+        var ua = navigator.userAgent;
+        if (ua.match(/Android/i) != null) {
+            // alert(ua);
+        }
+        // 网页中包含框才能调用Box API
+        // Box.android.invokeApp("Bdbox_android_send_intent", "send", ["#Intent;action=com.baidu.searchbox.action.HOME;category=android.intent.category.DEFAULT;end"
+        //                 ]);
+    </script>
+    <button id="share">分享一下</button>
+    <script>
+        Box.share({
+            content: 'test',
+            id: 'share'
+        });
+    </script>
+</body>
+</html>
