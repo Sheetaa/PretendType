@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Waterfall Demo</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="initial-scale=1, user-scalable=no">
+    <style>
+    .one {
+        height: 3000px;
+    }
+    </style>
+</head>
+<body>
+    <div class="one"></div>
+    <script src='http://requirejs.org/docs/release/2.1.11/minified/require.js'></script>
+    <script>
+    function backToTop() {
+        console.log('chang');
+    }
+        require(['Waterfall'], function (waterfall) {
+            waterfall.init({
+                callbackList: [backToTop],
+                ajaxConf: {
+                    url: ''
+                }
+            });
+        });
+    </script>
+</body>
+</html>
